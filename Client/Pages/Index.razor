@@ -1,0 +1,274 @@
+﻿@page "/"
+
+<Header />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+@*FORMULARIO*@
+<EditForm Model="objVenta">
+    <div class="row">
+        <div class="col-2">
+            <InputText @bind-Value=objVenta.NombreCliente class="form-control" placeholder="Nombre cliente"></InputText>
+        </div>
+        <div class="col-2">
+            <InputNumber @bind-Value=objVenta.ValorProducto class="form-control" placeholder="Valor del producto"></InputNumber>
+        </div>
+        <div class="col-2">
+            <InputNumber @bind-Value=objVenta.EfectivoRecibido class="form-control" placeholder="Dinero recibido"></InputNumber>
+        </div>
+        <div class="col-2">
+            <InputSelect @bind-Value=objVenta.Transferencia class="form-control">
+                <option value=0>Pago por Efectivo</option>
+                <option value=1>Pago por Transferencia</option>
+            </InputSelect>
+        </div>
+        <div class="col-2">
+            <button type="button" class="btn btn-success" @onclick="(() => Guardar(objVenta))">Guardar</button>
+        </div>
+    </div>
+
+</EditForm>
+
+<br />
+<div class="row">
+    <div class="col-8">
+        <table class="table table-success table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Nombre Cliente</th>
+                    <th scope="col">Valor Producto</th>
+                    <th scope="col">Cambio</th>
+                    <th scope="col">Tipo Pago</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var v in listVentas)
+                {
+                <tr>
+                    <td>@v.Id</td>
+                    <td>@v.Fecha</td>
+                    <td>@v.NombreCliente</td>
+                    <td>@v.ValorProducto</td>
+                    <td>@v.Cambio</td>
+                    @if (v.Transferencia == 0)
+                    {
+                        <td>Efectivo</td>
+                    }
+                    else
+                    {
+                        <td>Transferencia</td>
+                    }
+                    <td>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" @onclick="(() => Editar(v))">
+                            <i class="bi bi-pen"></i>
+                        </button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalEliminar" @onclick="(() => LlamadoEliminar(v))">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-4">
+        <!-- ======= Services Section ======= -->
+        <section id="services" class="services section-bg">
+            <div class="container">
+
+                <div class="row" style="display:flex;justify-content:center">
+                    <div class="col-lg-12">
+                        <div class="row" style="display:flex;justify-content:center">
+
+                            <div class="col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" style="display:flex;justify-content:center">
+                                <div class="icon-box" data-aos="zoom-in" data-aos-delay="200">
+                                    <div class="icon"><i class="bx bx-file"></i></div>
+                                    <h4><a href="">Resumen</a></h4>
+                                    <p>Efectivo Total: @EfectivoTotal</p> <br />
+                                    <p>Valor Transferencia: @TotalTransferencias</p> <br />
+                                    <p>Dinero Total: @DineroTotal</p> <br />
+                                    <p>Numero de Ventas: @NumeroVentas</p> <br />
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- End Services Section -->
+    </div>
+
+</div>
+
+
+<!-- Modal de Editar -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="objVentaEditar">
+                    <p>Fecha</p>
+                    <InputDate @bind-Value="objVentaEditar.Fecha" class="form-control"></InputDate>
+                    <p>Nombre cliente</p>
+                    <InputText @bind-Value=objVentaEditar.NombreCliente class="form-control"></InputText>
+                    <p>Valor producto</p>
+                    <InputNumber @bind-Value=objVentaEditar.ValorProducto class="form-control"></InputNumber>
+                    <p>Dinero recibido</p>
+                    <InputNumber @bind-Value=objVentaEditar.EfectivoRecibido class="form-control"></InputNumber>
+                    <p>Cambios</p>
+                    <InputNumber @bind-Value=objVentaEditar.Cambio class="form-control"></InputNumber>
+                    <p>Medio pago</p>
+                    <InputSelect @bind-Value=objVentaEditar.Transferencia class="form-control">
+                        <option value="0">Pago por Efectivo</option>
+                        <option value="1">Pago por Transferencia</option>
+                    </InputSelect>
+                </EditForm>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" @onclick="(() => GuardarCambios(objVentaEditar))" data-bs-dismiss="modal">Guardar cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Eliminar-->
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Esta seguro que desea Eliminar este registro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" @onclick="(() => Eliminar(objVentaEditar))" data-bs-dismiss="modal">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+    public static List<Venta> listVentas = new List<Venta>();
+    Venta objVenta = new Venta();
+    Venta objVentaEditar = new Venta();
+
+    double? EfectivoTotal = 0;
+    double? TotalTransferencias = 0;
+    double? DineroTotal = 0;
+    int NumeroVentas = 0;
+
+    void Guardar(Venta venta)
+    {
+        Venta nuevaVenta = new Venta();
+        nuevaVenta.Id = listVentas.Count() + 1;
+        nuevaVenta.Fecha = venta.Fecha;
+        nuevaVenta.NombreCliente = venta.NombreCliente;
+        nuevaVenta.ValorProducto = venta.ValorProducto;
+        nuevaVenta.EfectivoRecibido = venta.EfectivoRecibido;
+        nuevaVenta.Cambio = venta.EfectivoRecibido - venta.ValorProducto;
+        nuevaVenta.Transferencia = venta.Transferencia;
+
+        listVentas.Add(nuevaVenta);
+
+        //LIMPIAR CASOS
+        objVenta.Id = 0;
+        objVenta.Fecha = DateTime.Now;
+        objVenta.NombreCliente = "";
+        objVenta.ValorProducto = null;
+        objVenta.EfectivoRecibido = null;
+        objVenta.Cambio = null;
+        objVenta.Transferencia = 0;
+
+        CalcularTotales();
+
+    }
+
+    void Editar(Venta venta)
+    {
+        objVentaEditar.Id = venta.Id;
+        objVentaEditar.Fecha = venta.Fecha;
+        objVentaEditar.NombreCliente = venta.NombreCliente;
+        objVentaEditar.ValorProducto = venta.ValorProducto;
+        objVentaEditar.Transferencia = venta.Transferencia;
+        objVentaEditar.EfectivoRecibido = venta.EfectivoRecibido;
+        objVentaEditar.Cambio = venta.Cambio;
+    }
+
+    void GuardarCambios(Venta venta)
+    {
+        //PARA EVITAR DUPLICIDAD AL EDITAR TEXTO
+        Venta nuevaVenta = new Venta();
+        nuevaVenta.Id = objVentaEditar.Id;
+        nuevaVenta.Fecha = objVentaEditar.Fecha;
+        nuevaVenta.NombreCliente = objVentaEditar.NombreCliente;
+        nuevaVenta.ValorProducto = objVentaEditar.ValorProducto;
+        nuevaVenta.Transferencia = objVentaEditar.Transferencia;
+        nuevaVenta.EfectivoRecibido = objVentaEditar.EfectivoRecibido;
+        nuevaVenta.Cambio = objVentaEditar.Cambio;
+
+        var ventaEliminar = listVentas.Where(x => x.Id == venta.Id).FirstOrDefault();
+        listVentas.Remove(ventaEliminar);
+        listVentas.Add(nuevaVenta);
+        listVentas = listVentas.OrderBy(x => x.Id).ToList();
+
+        CalcularTotales();
+    }
+
+    void LlamadoEliminar(Venta venta)
+    {
+        objVentaEditar = venta;
+    }
+
+    void Eliminar(Venta venta)
+    {
+        var ventaEliminar = listVentas.Where(x => x.Id == venta.Id).FirstOrDefault();
+        listVentas.Remove(ventaEliminar);
+        CalcularTotales();
+    }
+
+    void CalcularTotales()
+    {
+        foreach (var v in listVentas)
+        {
+            EfectivoTotal = 0;
+            TotalTransferencias = 0;
+
+            if (v.Transferencia == 0) // Pago por Efectivo
+            {
+                EfectivoTotal = EfectivoTotal + v.ValorProducto;
+            }
+            if (v.Transferencia == 1) // Pago por Transferencia
+            {
+                TotalTransferencias = TotalTransferencias + v.ValorProducto;
+            }
+
+        }
+        DineroTotal = EfectivoTotal + TotalTransferencias;
+        NumeroVentas = listVentas.Count();
+    }
+
+}
+
+
+
+

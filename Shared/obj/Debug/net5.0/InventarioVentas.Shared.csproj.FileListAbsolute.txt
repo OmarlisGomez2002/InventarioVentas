@@ -1,0 +1,12 @@
+C:\Cursos\Blazor\InventarioVentas\Shared\bin\Debug\net5.0\InventarioVentas.Shared.deps.json
+C:\Cursos\Blazor\InventarioVentas\Shared\bin\Debug\net5.0\InventarioVentas.Shared.dll
+C:\Cursos\Blazor\InventarioVentas\Shared\bin\Debug\net5.0\ref\InventarioVentas.Shared.dll
+C:\Cursos\Blazor\InventarioVentas\Shared\bin\Debug\net5.0\InventarioVentas.Shared.pdb
+C:\Cursos\Blazor\InventarioVentas\Shared\obj\Debug\net5.0\InventarioVentas.Shared.csproj.AssemblyReference.cache
+C:\Cursos\Blazor\InventarioVentas\Shared\obj\Debug\net5.0\InventarioVentas.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Cursos\Blazor\InventarioVentas\Shared\obj\Debug\net5.0\InventarioVentas.Shared.AssemblyInfoInputs.cache
+C:\Cursos\Blazor\InventarioVentas\Shared\obj\Debug\net5.0\InventarioVentas.Shared.AssemblyInfo.cs
+C:\Cursos\Blazor\InventarioVentas\Shared\obj\Debug\net5.0\InventarioVentas.Shared.csproj.CoreCompileInputs.cache
+C:\Cursos\Blazor\InventarioVentas\Shared\obj\Debug\net5.0\InventarioVentas.Shared.dll
+C:\Cursos\Blazor\InventarioVentas\Shared\obj\Debug\net5.0\ref\InventarioVentas.Shared.dll
+C:\Cursos\Blazor\InventarioVentas\Shared\obj\Debug\net5.0\InventarioVentas.Shared.pdb
